@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:students/Screens/main_screen.dart';
+import 'package:students/Screens/select_seat.dart';
+import 'package:students/Screens/teacher/main_screen.dart';
 import 'package:students/Services/auth_services.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,11 +42,30 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         });
         // ignore: use_build_context_synchronously
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => const QRViewExample(),
-            ));
+        if (responseMap['user_type'] == 2) {
+          if (responseMap['is_logged_id'] == true) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => main_screen(),
+                  // builder: (BuildContext context) => const QRViewExample(),
+                ));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // builder: (BuildContext context) => const SelectSeat(),
+                  builder: (BuildContext context) => const QRViewExample(),
+                ));
+          }
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => t_main_screen(),
+                // builder: (BuildContext context) => const QRViewExample(),
+              ));
+        }
       } else {
         setState(() {
           _isLoading = false;

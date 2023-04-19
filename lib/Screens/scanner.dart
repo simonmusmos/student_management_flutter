@@ -22,7 +22,7 @@ class QRViewExample extends StatefulWidget {
 }
 
 class _QRViewExampleState extends State<QRViewExample> {
-  Barcode? result;
+  String? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   seatSelection() async {
@@ -49,7 +49,9 @@ class _QRViewExampleState extends State<QRViewExample> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          if (result != null) seatSelection()
+          // ignore: unrelated_type_equality_checks, avoid_print
+          if (result == 'K+i5g3pGcM6W7rkVhkjZkJCqjaW+PKaiegTSew+s+hg=')
+            seatSelection()
         ],
       ),
     );
@@ -82,7 +84,8 @@ class _QRViewExampleState extends State<QRViewExample> {
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
+        // ignore: avoid_print
+        result = scanData.code;
       });
     });
   }
